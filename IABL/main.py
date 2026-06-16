@@ -11,7 +11,7 @@ MINHA_CHAVE = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=MINHA_CHAVE)
 
 # 3. Ler o arquivo de texto (Memória)
-with open("bluelock.txt", "r", encoding="utf-8") as f:
+with open("IABL/bluelock.txt", "r", encoding="utf-8") as f:
     contexto_blue_lock = f.read()
 
 # 4. Configurar as regras da IA
