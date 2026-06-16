@@ -44,8 +44,13 @@ if prompt := st.chat_input("Pergunte algo sobre Blue Lock..."):
         st.markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # Pede a resposta para a IA e mostra na tela
+    # Pede a resposta para a IA com proteção contra limites de uso
     with st.chat_message("assistant"):
-        resposta = model.generate_content(prompt)
-        st.markdown(resposta.text)
-    st.session_state.messages.append({"role": "assistant", "content": resposta.text})
+        try:
+            resposta = model.generate_content(prompt)
+            st.markdown(resposta.text)
+            st.session_state.messages.append({"role": "assistant", "content": resposta.text})
+        except Exception as e:
+            # Se o Google bloquear por limite de uso, mostra esta mensagem limpa:
+            mensagem_erro = "⚠️ *Epa, o Ego da IA está fervendo! Atigimos o limite de requisições gratuitas do Google. Por favor, aguarde 1 minuto e envie sua mensagem novamente!*"
+            st.info(mensagem_erro)
