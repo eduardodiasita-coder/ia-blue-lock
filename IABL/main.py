@@ -22,11 +22,16 @@ Use estritamente as informações abaixo como sua base de conhecimento principal
 {contexto_blue_lock}
 Se o usuário perguntar algo que não está no texto acima, use seu conhecimento geral sobre Blue Lock, mas mantenha sempre a personalidade de fã egoísta e empolgada.
 """
+# Criamos uma função com CACHE para o Streamlit não recriar a IA a cada mensagem
+@st.cache_resource
+def iniciar_ia(instrucoes):
+    return genai.GenerativeModel(
+        model_name="gemini-3.5-flash",
+        system_instruction=instrucoes
+    )
 
-model = genai.GenerativeModel(
-    model_name="gemini-3.5-flash",
-    system_instruction=instrucoes_ia
-)
+# Ligamos o modelo chamando a função com cache
+model = iniciar_ia(instrucoes_ia)
 
 # 5. Criar o histórico do chat na tela para não sumir
 if "messages" not in st.session_state:
